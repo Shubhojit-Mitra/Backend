@@ -41,12 +41,15 @@ class LoginView(views.APIView):
 
 class LogoutView(views.APIView):
     def post(self, request):
-        request.user.auth_token.delete()
-        logout(request)
-        response = Response({"message": "Successfully logged out."})
-        response.delete_cookie('auth_token')
-
-        return response
+        if request.user.is_authenticated:
+            request.user.auth_token.delete()
+            logout(request)
+            response = Response({"message": "Successfully logged out."})
+            response.delete_cookie('auth_token')
+            return response
+        else:
+            return Response({"message": "User is not authenticated."}, status=401)
+        
 
 class HelloView(views.APIView):
     def get(self, request):

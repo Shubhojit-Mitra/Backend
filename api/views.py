@@ -3,8 +3,10 @@ from rest_framework import status, views
 from rest_framework.response import Response
 from rest_framework.authtoken.models import Token
 from .serializers import UserSerializer
+from django.views.decorators.csrf import csrf_exempt
 
 class RegisterView(views.APIView):
+    @csrf_exempt
     def post(self, request):
         serializer = UserSerializer(data=request.data)
         if serializer.is_valid():
@@ -22,6 +24,7 @@ class RegisterView(views.APIView):
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 class LoginView(views.APIView):
+    @csrf_exempt
     def post(self, request):
         username = request.data.get('username')
         password = request.data.get('password')
@@ -40,6 +43,7 @@ class LoginView(views.APIView):
             return Response({"message": "Invalid credentials."}, status=status.HTTP_400_BAD_REQUEST)
 
 class LogoutView(views.APIView):
+    @csrf_exempt
     def post(self, request):
         if request.user.is_authenticated:
             request.user.auth_token.delete()
@@ -49,11 +53,3 @@ class LogoutView(views.APIView):
             return response
         else:
             return Response({"message": "User is not authenticated."}, status=401)
-        
-
-class HelloView(views.APIView):
-    def get(self, request):
-        print(request.user)
-        if request.user.is_authenticated:
-            return Response({"message": f"Hello, {request.user.username}!"})
-        return Response({"message": "Hello, world!"})

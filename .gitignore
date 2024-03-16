@@ -1,0 +1,33 @@
+# Byte-compiled / optimized / DLL files
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Local development settings
+*.sqlite3
+*.db.sqlite3
+*.pyc
+*.bak
+
+# Media and static files
+media/
+staticfiles/
+
+# Virtual environment
+venv/
+env/
+.venv/
+ENV/
+
+# IDE files
+.vscode/
+*.sublime-project
+*.sublime-workspace
+
+# Logs
+*.log
+
+# Temporary files
+*.swp
+*~
+.DS_Store
